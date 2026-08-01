@@ -30,6 +30,6 @@ If you are running native Linux (Ubuntu, Mint, Debian, etc.) and encounter a `pe
 
 You can fix this permanently by running:
 ```bash
-sudo usermod -aG docker \$USER
+sudo usermod -aG docker $USER
 newgrp docker
 ```
