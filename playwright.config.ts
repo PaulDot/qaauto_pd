@@ -38,7 +38,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    // Use passed in BASE_URL, otherwise local URL if set, otherwise defaults to the live Heroku app
+    // Environment override OR auto-detected fallback URL
     baseURL: process.env.BASE_URL || defaultUrl,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
