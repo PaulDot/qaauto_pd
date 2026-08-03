@@ -1,71 +1,36 @@
 const { execSync } = require('child_process');
-const http = require('http');
+const envConfig = require('../test-env.config.js'); 
 
-const action = process.argv[2]; // Extracts the actual string argument passed ('start' or 'stop')
-const containerName = 'the-internet-test-app';
-const dockerImage = 'gprestes/the-internet:v2.6.5';
+const action = process.argv[2];
+const name = envConfig.CONTAINER_NAME;
 
-// 1. Universal Pre-Check: Is Docker installed?
-try {
-  execSync('docker --version', { stdio: 'ignore' });
+// 1. Inform but continue if Docker missing/not runnning.
+try { 
+  execSync('docker ps', { stdio: 'ignore' }); 
 } catch (e) {
-  console.error('\n❌ ERROR: Docker is not installed or not running.');
-  console.error('👉 Please start Docker Desktop, or run "npm run test" to test against the live site directly.\n');
-  process.exit(1);
+  console.log('\n📡 Docker is closed or missing. Testing framework will gracefully fall back to the live site.\n');
+  process.exit(0);  // Skip further actions in this script if docker is not available.
 }
 
-// Poll the application until it responds with a 200
-function waitForApp(url, timeoutMs = 30000) {
-  return new Promise((resolve, reject) => {
-    const start = Date.now();
-    const interval = setInterval(() => {
-      if (Date.now() - start > timeoutMs) {
-        clearInterval(interval);
-        reject(new Error('Timeout waiting for application to respond.'));
-      }
-      http.get(url, (res) => {
-        if (res.statusCode === 200) {
-          clearInterval(interval);
-          resolve();
-        }
-      }).on('error', () => {
-        // App is not ready yet, swallow error and retry
-      });
-    }, 1000);
-  });
-}
-
-// 2. Execute requested action
+// 2. Manage Actions
 if (action === 'start') {
-  console.log('🧹 Cleaning up old containers if they exist...');
-  try {
-    execSync(`docker rm -f ${containerName}`, { stdio: 'ignore' });
-  } catch (e) {}
-
-  console.log('🚀 Spinning up the-internet Docker container...');
-  execSync(`docker run -d --name ${containerName} -p 7080:5000 ${dockerImage}`, { stdio: 'inherit' });
-
-  console.log('⏳ Waiting for application to initialize on http://localhost:7080...');
+  console.log(`🚀 Starting ${name}...`);
+  try { execSync(`docker rm -f ${name}`, { stdio: 'ignore' }); } catch {}
   
-  // Keep the process alive until the container actually handles HTTP requests
-  waitForApp('http://127.0.0.1:7080')
-    .then(() => {
-      console.log('✅ Server is ready! Handing over to test runner...');
-      // Sleep briefly or exit cleanly now that the endpoint handles traffic
-      process.exit(0);
-    })
-    .catch((err) => {
-      console.error(`❌ ${err.message}`);
-      process.exit(1);
-    });
+  // Start container with a built-in health check
+  execSync(`docker run -d --name ${name} -p ${envConfig.LOCAL_PORT}:5000 --health-cmd "curl -f http://localhost:5000/ || exit 1" --health-interval 1s ${envConfig.DOCKER_IMAGE}`, { stdio: 'inherit' });
+  
+  console.log('⏳ Waiting for server response...');
+  // Condensed native OS block that checks Docker's engine metrics until healthy
+  execSync(`until [ "$(docker inspect --format='{{.State.Health.Status}}' ${name})" = "healthy" ]; do sleep 0.5; done`, { stdio: 'inherit' });
+  console.log('✅ Server is ready!');
 
 } else if (action === 'stop') {
+  console.log(`🛑 Stopping ${name}...`);
   try {
-    console.log('🛑 Stopping and removing the container...');
-    execSync(`docker stop ${containerName}`, { stdio: 'ignore' });
-    execSync(`docker rm ${containerName}`, { stdio: 'ignore' });
+    execSync(`docker rm -f ${name}`, { stdio: 'ignore' });
     console.log('✨ Clean up complete!');
-  } catch (e) {
-    console.log('⚠️ No running container found to stop.');
+  } catch {
+    console.log('⚠️ No container found to stop.');
   }
 }
