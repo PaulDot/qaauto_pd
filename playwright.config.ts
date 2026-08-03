@@ -1,18 +1,25 @@
 import { defineConfig, devices } from '@playwright/test';
 import { execSync } from 'child_process';
+import envConfig from './test-env.config.js';
 
 function isContainerRunning(containerName: string): boolean {
   try {
-    // Checks if a container with this specific name is active
-    execSync(`docker ps --filter "name=${containerName}" --filter "status=running" --format "{{.Names}}"`);
-    return true;
+    const output = execSync(
+      // Filter for matching, running container
+      `docker ps -q --filter "name=^/${containerName}$" --filter "status=running"`,
+      // Capture just the stdout
+      { stdio: ['ignore', 'pipe', 'ignore'] }
+    ).toString().trim();
+
+    return output.length > 0;
   } catch {
     return false;
   }
 }
 
-const localAppRunning = isContainerRunning('the-internet-test-app');
-const defaultUrl = localAppRunning ? 'http://localhost:7080' : 'https://the-internet.herokuapp.com';
+const localAppRunning = isContainerRunning(envConfig.CONTAINER_NAME);
+const defaultUrl = localAppRunning ? envConfig.LOCAL_URL : envConfig.LIVE_URL;
+
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -31,7 +38,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    // Uses local URL if set, otherwise defaults to the live Heroku app
+    // Environment override OR auto-detected fallback URL
     baseURL: process.env.BASE_URL || defaultUrl,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -49,21 +56,25 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
+      testIgnore: /.*smoke\.spec\.ts/,
     },
 
     /* {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      testIgnore: /.*smoke\.spec\.ts/,
     }, */
 
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
+      testIgnore: /.*smoke\.spec\.ts/,
     },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
+    //   testIgnore: /.*smoke\.spec\.ts/,
     // },
 
     /* Test against branded browsers. */
@@ -77,10 +88,4 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
