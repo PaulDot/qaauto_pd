@@ -17,11 +17,11 @@ if (action === 'start') {
   console.log(`🚀 Starting ${name}...`);
   try { execSync(`docker rm -f ${name}`, { stdio: 'ignore' }); } catch {}
   
-  // Start container with a built-in health check
+  // Start container and monitor health for next step
   execSync(`docker run -d --name ${name} -p ${envConfig.LOCAL_PORT}:5000 --health-cmd "curl -f http://localhost:5000/ || exit 1" --health-interval 1s ${envConfig.DOCKER_IMAGE}`, { stdio: 'inherit' });
   
   console.log('⏳ Waiting for server response...');
-  // Condensed native OS block that checks Docker's engine metrics until healthy
+  // Check the container's internal health status every 0.5s; exit the loop when "healthy"
   execSync(`until [ "$(docker inspect --format='{{.State.Health.Status}}' ${name})" = "healthy" ]; do sleep 0.5; done`, { stdio: 'inherit' });
   console.log('✅ Server is ready!');
 
