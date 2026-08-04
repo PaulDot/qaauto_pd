@@ -1,5 +1,3 @@
-//  A test suite that uses a page object file - slower to create but arguably more maintainable.
-
 import { test, expect } from '@playwright/test';
 import { LargePage } from '../pages/large';
 
