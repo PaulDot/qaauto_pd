@@ -7,8 +7,8 @@ const name = envConfig.CONTAINER_NAME;
 // 1. Inform but continue if Docker missing/not runnning.
 try { 
   execSync('docker ps', { stdio: 'ignore' }); 
-} catch (e) {
-  console.log('\n📡 Docker is closed or missing. Testing framework will gracefully fall back to the live site.\n');
+} catch {
+  console.log('\n📡 Docker is closed or missing. Testing framework connected to the live site.\n');
   process.exit(0);  // Skip further actions in this script if docker is not available.
 }
 
