@@ -9,7 +9,7 @@ test.describe('Dropdown List Page Tests', () => {
         await dropdownPage.navigate();
     });
 
-    test.only('should verify default page state', async () => {
+    test('should verify default page state', async () => {
         await expect(dropdownPage.pageHeader).toBeVisible();
         const selectedText = await dropdownPage.getSelectedText();
         expect(selectedText).toBe('Please select an option');
