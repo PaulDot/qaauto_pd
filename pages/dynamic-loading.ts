@@ -1,9 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 
-type ExampleNumber = 1 | 2
+type ExampleNumber = 1 | 2;
 
 export class DynamicLoadingPage {
-    readonly page: Page;
+    private readonly page: Page;
     readonly startButton: Locator;
     readonly loadingBar: Locator;
     readonly finishText: Locator;

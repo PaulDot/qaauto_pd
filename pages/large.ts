@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 
 export class LargePage {
-  readonly page: Page;
+  private readonly page: Page;
   readonly pageHeader: Locator;
   readonly nestedSectionContainer: Locator;
   readonly noSiblingsHeader: Locator;
