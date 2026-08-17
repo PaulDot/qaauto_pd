@@ -60,6 +60,7 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
       testIgnore: /.*smoke\.spec\.ts/,
+      grepInvert: /@api/, 
     },
 
     /* {
