@@ -9,7 +9,7 @@ test.describe('Nested Frames Sandbox', () => {
         await nestedFramesPage.navigate();
     });
 
-    test.only('should successfully read text from nested html frames', async () => {
+    test('should successfully read text from nested html frames', async () => {
         const leftBody = nestedFramesPage.getLeftFrameBody();
         await expect(leftBody).toHaveText('LEFT');
         const middleBody = nestedFramesPage.getMiddleFrameBody();
