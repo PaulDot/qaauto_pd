@@ -13,6 +13,13 @@ export class AuthClient {
                 username: user,
                 password: pass,
             },
+            maxRedirects: 0,
+        });
+    }
+
+    async getSecureArea() {
+        return await this.request.get('/secure', {
+            maxRedirects: 0,
         });
     }
 }
