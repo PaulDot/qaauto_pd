@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { FormAuthenticationPage } from '../pages/form-authentication';
-import { AuthClient } from '../pages/api/auth.client';
+import { FormAuthenticationPage } from '../pages/form-auth';
+import { AuthClient } from '../api/form-auth.client';
 
 test.describe('Form Authentication via UI and API', () => {
     test.describe('UI Path Tests', () => {
