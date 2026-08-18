@@ -6,7 +6,7 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     
     # This spins up the docker image to test against
@@ -23,9 +23,25 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
+
+    - name: Cache Playwright Browsers
+      id: playwright-cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        # Tie the cache to package-lock.json
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
+    # Only downloads binaries if the package-lock file hash has changed (Cache Miss)
+    - name: Install Playwright Browsers (Fresh Download)
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: npx playwright install --with-deps
       
+    # Even if the cache is a hit, verify dependencies
+    - name: Verify Playwright System Dependencies (Cache Hit)
+      if: steps.playwright-cache.outputs.cache-hit == 'true'
+      run: npx playwright install-deps
+
     - name: Run Playwright tests
       run: npx playwright test
       env:
