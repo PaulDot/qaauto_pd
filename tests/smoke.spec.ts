@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Infrastructure Smoke Check', () => {
+test.describe('Infrastructure Smoke Check @smoke', () => {
   test('should verify connection routing target', async ({ page, baseURL }) => {
     console.log(`📡 Current Test Session Routing Target: ${baseURL}`);
     

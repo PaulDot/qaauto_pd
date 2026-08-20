@@ -59,35 +59,37 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      testIgnore: /.*smoke\.spec\.ts/,
+      grepInvert: [/@api/, /@smoke/], 
     },
 
     /* {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: /.*smoke\.spec\.ts/,
+      grepInvert: [/@api/, /@smoke/], 
     }, */
 
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
-      testIgnore: /.*smoke\.spec\.ts/,
+      grepInvert: [/@api/, /@smoke/], 
     },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
-    //   testIgnore: /.*smoke\.spec\.ts/,
+    //   grepInvert: [/@api/, /@smoke/], 
     // },
 
     /* Test against branded browsers. */
     // {
     //   name: 'Microsoft Edge',
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   grepInvert: [/@api/, /@smoke/], 
     // },
     // {
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   grepInvert: [/@api/, /@smoke/], 
     // },
   ],
 
