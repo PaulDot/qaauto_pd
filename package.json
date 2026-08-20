@@ -1,6 +1,6 @@
 {
   "name": "qaauto_pd",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Portfolio project for QA Automation with Playwright",
   "main": "index.js",
   "scripts": {
