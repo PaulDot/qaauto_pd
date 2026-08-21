@@ -22,12 +22,15 @@ git clone https://github.com/PaulDot/qaauto_pd.git && cd qaauto_pd
 npm install
 
 # 3. Spin up Docker, run the Playwright test suite, and tear down containers
+# headlessly:
 npm run test:local
+# or, to slow down and watch tests execute in headed mode:
+npm run test:watch
 ```
 
 ### Viewing Test Results
 
-After the test run completes, you can view the interactive HTML report by running:
+After the test run completes, you can view results inline in the terminal, or view a more detailed interactive HTML report by running:
 ```bash
 npx playwright show-report
 ```

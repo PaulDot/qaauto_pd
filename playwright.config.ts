@@ -43,10 +43,14 @@ export default defineConfig({
   use: {
     // Environment override OR auto-detected fallback URL
     baseURL: process.env.BASE_URL || defaultUrl,
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     colorScheme: 'dark',
     screenshot: 'only-on-failure',
+    launchOptions: {
+      // if SLOMO=true use slowed down headed browser(s)
+      slowMo: process.env.SLOMO ? 1_000 : 0,
+      headless: process.env.SLOMO ? false : undefined,
+    }
   },
 
   /* Configure projects for major browsers */
