@@ -24,11 +24,11 @@ export class FileUploadPage {
         await this.uploadBtn.click();
     }
 
-    getSuccessHeader() {
+    getSuccessHeader(): Locator {
         return this.successHeader;
     }
 
-    getUploadedFileName() {
+    getUploadedFileName(): Locator {
         return this.uploadedMsg;
     }
 }
