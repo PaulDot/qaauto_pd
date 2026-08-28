@@ -2,7 +2,7 @@
   "name": "qaauto_pd",
   "version": "1.2.0",
   "description": "Portfolio project for QA Automation with Playwright",
-  "main": "index.js",
+  "main": "playwright.config.ts",
   "scripts": {
     "app:start": "node scripts/manage-app.js start",
     "app:stop": "node scripts/manage-app.js stop",
@@ -14,8 +14,8 @@
   },
   "keywords": [],
   "author": "Paul Doherty",
-  "license": "ISC",
-  "type": "commonjs",
+  "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
