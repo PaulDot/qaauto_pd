@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DynamicLoadingPage } from '../pages/dynamic-loading';
+import { DynamicLoadingPage } from '../pages/dynamic-loading.js';
 
 let dynamicLoadingPage: DynamicLoadingPage;
 

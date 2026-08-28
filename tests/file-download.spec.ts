@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { FileDownloadPage } from '../pages/file-download';
+import { FileDownloadPage } from '../pages/file-download.js';
 import fs from 'fs';
 
 test.describe('File Download Verification', () => {

@@ -26,6 +26,7 @@ const defaultUrl = localAppRunning ? envConfig.LOCAL_URL : envConfig.LIVE_URL;
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -66,11 +67,11 @@ export default defineConfig({
       grepInvert: [/@api/, /@smoke/], 
     },
 
-    /* {
+    {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       grepInvert: [/@api/, /@smoke/], 
-    }, */
+    },
 
     /* Test against mobile viewports. */
     {

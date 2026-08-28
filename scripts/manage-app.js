@@ -1,5 +1,5 @@
-const { execSync } = require('child_process');
-const envConfig = require('../test-env.config.js'); 
+import { execSync } from 'child_process';
+import envConfig from '../test-env.config.js'; 
 
 const action = process.argv[2];
 const name = envConfig.CONTAINER_NAME;
