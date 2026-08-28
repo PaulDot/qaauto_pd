@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { StatusCodesPage, StatusCode } from "../pages/status-codes";
+import { StatusCodesPage, StatusCode } from "../pages/status-codes.js";
 
 test.describe('HTTP Status Codes Sandbox', () => {
     let statusCodesPage: StatusCodesPage;

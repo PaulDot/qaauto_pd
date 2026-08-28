@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { LargePage } from '../pages/large';
+import { LargePage } from '../pages/large.js';
 
 test.describe('Large & Deep DOM Page Tests', () => {
   let largePage: LargePage;

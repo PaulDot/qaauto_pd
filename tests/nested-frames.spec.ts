@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { NestedFramesPage } from '../pages/nested-frames';
+import { NestedFramesPage } from '../pages/nested-frames.js';
 
 test.describe('Nested Frames Sandbox', () => {
     let nestedFramesPage: NestedFramesPage;

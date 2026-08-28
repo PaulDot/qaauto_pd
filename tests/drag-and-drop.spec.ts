@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DragAndDropPage } from '../pages/drag-and-drop';
+import { DragAndDropPage } from '../pages/drag-and-drop.js';
 
 test.describe('Drag and Drop Sandbox', () => {
     let dragDropPage: DragAndDropPage;

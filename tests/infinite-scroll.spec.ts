@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { InfiniteScrollPage } from '../pages/infinite-scroll';
+import { InfiniteScrollPage } from '../pages/infinite-scroll.js';
 
 test.describe('Inifinite Scroll Sandbox', () => {
     let infiniteScrollPage: InfiniteScrollPage;

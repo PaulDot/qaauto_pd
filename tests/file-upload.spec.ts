@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { FileUploadPage } from '../pages/file-upload';
+import { FileUploadPage } from '../pages/file-upload.js';
 import fs from 'fs';
 
 test.describe('File Upload Verification', () => {

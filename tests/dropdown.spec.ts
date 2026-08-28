@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { DropdownPage } from '../pages/dropdown';
+import { DropdownPage } from '../pages/dropdown.js';
 
 test.describe('Dropdown List Page Tests', () => {
     let dropdownPage: DropdownPage;

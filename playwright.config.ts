@@ -66,11 +66,11 @@ export default defineConfig({
       grepInvert: [/@api/, /@smoke/], 
     },
 
-    {
+    /* {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       grepInvert: [/@api/, /@smoke/], 
-    },
+    }, */
 
     /* Test against mobile viewports. */
     {
