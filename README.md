@@ -35,13 +35,32 @@ After the test run completes, you can view results inline in the terminal, or vi
 npx playwright show-report
 ```
 
-## 🛠️ Code Quality & Local Guardrails
+## 📐 Framework Architecture & Environment Design
 
-This project implements strict linting and automatic environment detection to ensure test stability and maintainable code architecture.
+To guarantee runtime stability and cross-platform reproducibility (and as we only really care about demonstrating the test framework rather than the example system-under-test), the repository enforces an isolated container lifecycle with fall back to the live site if there are local issues.
 
-* **ESLint (Flat Config):** Enforces modern TypeScript/JavaScript patterns and specialized web-first Playwright standards.
-* **Husky Pre-Commit Hook:** Automatically validates code changes (`npm run lint`) on every commit attempt. If code quality rules are violated, the commit is safely blocked.
-* **Environment Resilience:** If Docker is closed or missing, the startup orchestration script automatically logs a notice and switches seamlessly to a live site fallback environment.
+```text
+[ npm run test:local | npm run test:watch ]
+        │
+        ▼
+Is Docker Agent Active?
+├── NO  ──► [ Log Warning Notice ] ──► Route Test Traffic to Live Site
+│
+└── YES ──► Check Container Status
+             ├── Running ──► Reuse Container & Route Traffic to localhost:7080
+             └── Stale/Off ─► Wipe Stale PIDs ──► Spin Up Image ──► Await Healthcheck (healthy)
+```
+
+## ⚙️ CI/CD Pipeline (GitHub Actions)
+
+As well as local testing options, every code change pushed to `main` or submitted via a Pull Request automatically triggers building and testing via GitHub Actions:
+* **Native Service Containerisation:** The pipeline spins up an independent background container instance of the application ahead of testing, replicating the isolated local Docker test setup.
+* **Intelligent Browser Caching:** To speed up testing and avoid redundant download overhead, the runner skips fresh browser downloads unless project dependency locks are modified.
+* **Test Artifacts:** Generates and attaches detailed, interactive interactive HTML test report artifacts with a 30-day retention window upon suite completion.
+
+## 🛠️ Code Quality
+
+This project implements an automated quality gate using **ESLint** and **Husky** to enforce modern TypeScript patterns and specialised, web-first Playwright standards. Verification runs automatically on every commit attempt; if code quality rules are violated, the pre-commit hook safely blocks the code injection to maintain a stable, clean codebase.
 
 ## 🔍 Troubleshooting
 
