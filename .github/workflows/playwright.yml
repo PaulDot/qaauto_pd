@@ -8,6 +8,9 @@ jobs:
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
     
     # This spins up the docker image to test against
     services:
@@ -54,3 +57,10 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+    - name: Deploy Live Test Report Dashboard to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./playwright-report

@@ -1,5 +1,7 @@
 # Paul Doherty - Test Examples
 
+**📊 [View Live Test Report Dashboard](https://PaulDot.github.io/qaauto_pd)**
+
 This repository features an example of a robust end-to-end testing framework built with Playwright, demonstrating modern automation best practices, continuous integration, and clean container orchestration.
 
 The suite targets [the-internet.herokuapp.com](https://the-internet.herokuapp.com/), using a local [Docker Image](https://hub.docker.com/r/gprestes/the-internet/) for deterministic and sandboxed test execution.
